@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DH CLUB — Digital Hub Club</title>
+  <meta name="description" content="Digital Hub Club — IT and digital club: programming, graphic design, 3D modeling, and project management." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --surface: #ffffff;
+      --surface-2: #eef2f7;
+      --text: #1a2233;
+      --text-2: #4a5568;
+      --accent: #4f8cff;
+      --accent-h: #356fe0;
+      --border: #e2e8f0;
+      --shadow: 0 4px 20px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 40px rgba(79,140,255,0.18);
+      --radius: 14px;
+      --t: 0.25s ease;
+    }
+
+    body.dark {
+      --bg: #0f1420;
+      --surface: #1a2233;
+      --surface-2: #141b2b;
+      --text: #e8eef7;
+      --text-2: #a0aec0;
+      --border: #2d3748;
+      --shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      font-family: 'Poppins', 'Tajawal', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background var(--t), color var(--t);
+    }
+    html[dir="rtl"] body { font-family: 'Tajawal', 'Poppins', sans-serif; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ==== LOGO ==== */
+    .logo-dh {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      background: linear-gradient(135deg, #00c6ff, #0072ff, #7c3aed);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 6px rgba(0,198,255,0.4));
+    }
+
+    /* ==== NAVBAR ==== */
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 16px;
+      padding: 12px 24px;
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { display: flex; align-items: center; gap: 8px; font-size: 22px; font-weight: 800; }
+    .logo-dh { font-size: 26px; letter-spacing: 1px; }
+    .logo-sub { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 1px; }
+    .logo-sub span { color: var(--accent); }
+
+    .nav-links { display: flex; gap: 24px; list-style: none; margin-inline-start: auto; }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--text-2);
+      transition: color var(--t);
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-actions { display: flex; align-items: center; gap: 8px; margin-inline-start: auto; }
+    .nav-links + .nav-actions { margin-inline-start: 0; }
+
+    .lang-switch { display: flex; gap: 4px; }
+    .lang-btn, .icon-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+      font-weight: 600;
+      transition: all var(--t);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .lang-btn:hover, .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .icon-btn { width: 36px; height: 36px; font-size: 15px; }
+    .burger { display: none; }
+
+    /* ==== CUSTOMIZER PANEL ==== */
+    .customizer-drawer {
+      position: fixed;
+      top: 80px;
+      inset-inline-end: -280px;
+      width: 260px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+      transition: inset-inline-end 0.3s ease;
+    }
+    .customizer-drawer.open { inset-inline-end: 20px; }
+    .customizer-group { margin-bottom: 14px; }
+    .customizer-group label { font-size: 12px; font-weight: 600; display: block; margin-bottom: 6px; }
+    .customizer-group input[type="color"] { border: none; width: 100%; height: 36px; border-radius: 8px; cursor: pointer; }
+
+    /* ==== HERO ==== */
+    .hero {
+      padding: 90px 24px 70px;
+      text-align: center;
+      background: radial-gradient(circle at 50% 0%, var(--surface-2) 0%, var(--bg) 70%);
+    }
+    .hero-inner { max-width: 760px; margin: 0 auto; }
+    .badge {
+      display: inline-block;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(79,140,255,0.1);
+      padding: 6px 14px; border-radius: 999px;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(40px, 8vw, 76px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, #00c6ff, #0072ff, #7c3aed);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p.lead {
+      font-size: clamp(15px, 2vw, 17px);
+      color: var(--text-2);
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+    .hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ==== BUTTONS ==== */
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all var(--t);
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: var(--shadow-lg);
+    }
+    .btn-primary:hover { background: var(--accent-h); transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--text); border-color: var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ==== SECTIONS ==== */
+    .section { padding: 70px 24px; max-width: 1150px; margin: 0 auto; }
+    .section-alt { max-width: 100%; background: var(--surface-2); }
+    .section-alt > .inner { max-width: 1150px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 42px; }
+    .section-header h2 {
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 800; letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+    .section-header p { color: var(--text-2); max-width: 540px; margin: 0 auto; }
+
+    /* ==== CARDS ==== */
+    .grid { display: grid; gap: 20px; }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow);
+      transition: transform var(--t), box-shadow var(--t), border-color var(--t);
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent);
+    }
+    .card .icon { font-size: 32px; margin-bottom: 12px; }
+    .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+    .card p { color: var(--text-2); font-size: 14px; }
+
+    /* ==== POLE SELECTOR ==== */
+    .pole-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .pole-option {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      cursor: pointer;
+      text-align: start;
+      font-family: inherit;
+      color: var(--text);
+      transition: all var(--t);
+      display: flex; flex-direction: column; gap: 6px;
+      position: relative; overflow: hidden;
+    }
+    .pole-option:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+    .pole-option.selected {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(79,140,255,0.08), rgba(124,58,237,0.06));
+      box-shadow: 0 0 0 3px rgba(79,140,255,0.15);
+    }
+    .pole-option.selected::after {
+      content: '✓';
+      position: absolute; top: 12px; inset-inline-end: 14px;
+      width: 26px; height: 26px;
+      background: var(--accent); color: #fff;
+      border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 14px; font-weight: 700;
+      animation: pop 0.3s ease;
+    }
+    @keyframes pop {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+    .pole-option .pole-icon { font-size: 28px; }
+    .pole-option .pole-name { font-size: 16px; font-weight: 700; color: var(--text); }
+    .pole-option.selected .pole-name { color: var(--accent); }
+    .pole-option .pole-desc { font-size: 13px; color: var(--text-2); line-height: 1.5; }
+    .pole-option .pole-tag {
+      display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--accent); background: rgba(79,140,255,0.12);
+      padding: 3px 10px; border-radius: 999px; margin-bottom: 4px; align-self: flex-start;
+    }
+
+    /* ==== FORM ==== */
+    .contact-form {
+      max-width: 640px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 14px;
+      background: var(--surface); padding: 28px;
+      border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .contact-form input, .contact-form textarea, .contact-form select {
+      font-family: inherit; font-size: 14px; padding: 12px 14px;
+      border-radius: 10px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); transition: border-color var(--t);
+    }
+    .contact-form input:focus, .contact-form textarea:focus, .contact-form select:focus {
+      outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,140,255,0.15);
+    }
+    .contact-form textarea { resize: vertical; min-height: 110px; }
+    .contact-form .btn { align-self: flex-start; }
+    .form-hint {
+      font-size: 13px; color: var(--text-2); padding: 8px 12px;
+      background: rgba(79,140,255,0.08); border-radius: 8px; display: none;
+    }
+    .form-hint.show { display: block; }
+    .form-hint strong { color: var(--accent); }
+
+    .success {
+      display: none; max-width: 640px; margin: 20px auto 0; text-align: center;
+      background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.4);
+      color: #15803d; padding: 20px; border-radius: var(--radius);
+    }
+    body.dark .success { color: #4ade80; }
+    .success.show { display: block; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ==== FOOTER ==== */
+    .footer { background: var(--surface); border-top: 1px solid var(--border); padding: 50px 24px 0; margin-top: 40px; }
+    .footer-inner { max-width: 1150px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1.3fr; gap: 32px; padding-bottom: 40px; }
+    .footer h4 { font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+    .footer ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer ul a { font-size: 13px; color: var(--text-2); transition: color var(--t); }
+    .footer ul a:hover { color: var(--accent); }
+    .footer-brand .logo-dh { font-size: 40px; display: inline-block; margin-bottom: 12px; }
+    .footer-brand p { color: var(--text-2); font-size: 13px; max-width: 320px; }
+    .social-btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px;
+      border-radius: 10px; background: var(--bg); border: 1px solid var(--border);
+      font-size: 13px; font-weight: 500; transition: all var(--t);
+    }
+    .social-btn:hover {
+      background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);
+      color: #fff; border-color: transparent; transform: translateY(-2px);
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--border); max-width: 1150px; margin: 0 auto; padding: 20px 0;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+      font-size: 12px; color: var(--text-2);
+    }
+    .footer-bottom strong { color: var(--accent); }
+
+    /* ==== RESPONSIVE ==== */
+    @media (max-width: 860px) {
+      .nav-links {
+        position: absolute; top: 100%; inset-inline: 0;
+        flex-direction: column; gap: 0; padding: 0;
+        background: var(--surface); border-bottom: 1px solid var(--border);
+        max-height: 0; overflow: hidden; transition: max-height var(--t);
+      }
+      .nav-links.open { max-height: 300px; }
+      .nav-links li { padding: 14px 22px; border-top: 1px solid var(--border); }
+      .burger { display: inline-flex; }
+      .nav-actions { margin-inline-start: auto; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .navbar { padding: 10px 14px; gap: 8px; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero { padding: 60px 16px 50px; }
+      .section { padding: 50px 16px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 26px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .hero-buttons .btn { width: 100%; }
+      .lang-btn { padding: 5px 7px; font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <a href="#hero" class="logo">
+      <span class="logo-dh">DH</span>
+      <span class="logo-sub">CLUB<span>.</span></span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero" data-i18n="nav.home">Home</a></li>
+      <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="#poles" data-i18n="nav.poles">Our Departments</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
+        <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">ع</button>
+      </div>
+      <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" aria-label="Theme">🌙</button>
+      <button class="icon-btn" onclick="toggleCustomizer()" aria-label="Customizer">🎨</button>
+      <button class="icon-btn burger" onclick="toggleMenu()" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- ===== CUSTOMIZER DRAWER ===== -->
+  <aside class="customizer-drawer" id="customizerDrawer">
+    <h3 style="font-size:15px; margin-bottom:12px;">Live Style Editor</h3>
+    <div class="customizer-group">
+      <label for="accentColor">Accent Color</label>
+      <input type="color" id="accentColor" value="#4f8cff" oninput="changeAccentColor(this.value)">
+    </div>
+    <div class="customizer-group">
+      <label for="borderRadius">Border Radius (px)</label>
+      <input type="range" id="borderRadius" min="4" max="24" value="14" oninput="changeRadius(this.value)" style="width:100%;">
+    </div>
+  </aside>
+
+  <!-- ===== HERO ===== -->
+  <header id="hero" class="hero">
+    <div class="hero-inner">
+      <p class="badge">⚡ <span data-i18n="hero.badge">INTRODUCTION</span></p>
+      <h1 data-i18n="hero.title">DH CLUB</h1>
+      <p class="lead" data-i18n="hero.subtitle">
+        Welcome to Digital Hub Club, the ultimate tech and digital hub. Our platform connects creative minds passionate about innovation, visual art, and modern software development.
+      </p>
+      <div class="hero-buttons">
+        <a href="#poles" class="btn btn-primary" data-i18n="hero.cta1">Explore Departments</a>
+        <a href="#contact" class="btn btn-outline" data-i18n="hero.cta2">Get in Touch</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== SKILLS ===== -->
+  <section id="skills" class="section">
+    <div class="section-header">
+      <p class="badge">📊 <span data-i18n="skills.badge">SKILLS</span></p>
+      <h2 data-i18n="skills.title">Our Expertise</h2>
+    </div>
+    <div class="grid grid-3">
+      <article class="card">
+        <div class="icon">💻</div>
+        <h3 data-i18n="skills.1.title">Programming</h3>
+        <p data-i18n="skills.1.desc">Mastering web technologies, modern frameworks, and software development.</p>
+      </article>
+      <article class="card">
+        <div class="icon">🎨</div>
+        <h3 data-i18n="skills.2.title">Graphic Design</h3>
+        <p data-i18n="skills.2.desc">Creating impactful visual graphics, logos, posters, and tailored brand identities.</p>
+      </article>
+      <article class="card">
+        <div class="icon">🌐</div>
+        <h3 data-i18n="skills.3.title">3D & Animation</h3>
+        <p data-i18n="skills.3.desc">Modeling 3D environments, architectural spaces, and immersive animations.</p>
+      </article>
+      <article class="card">
+        <div class="icon">📊</div>
+        <h3 data-i18n="skills.4.title">Project Management</h3>
+        <p data-i18n="skills.4.desc">Strategic planning, task coordination, agile methodology, and team leadership.</p>
+      </article>
+      <article class="card">
+        <div class="icon">🏛️</div>
+        <h3 data-i18n="skills.5.title">Art History</h3>
+        <p data-i18n="skills.5.desc">Studying art movements, design fundamentals, and visual culture.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== DEPARTMENTS / POLES ===== -->
+  <section id="poles" class="section section-alt">
+    <div class="inner">
+      <div class="section-header">
+        <p class="badge">🎓 <span data-i18n="poles.badge">DEPARTMENTS</span></p>
+        <h2 data-i18n="poles.title">Choose Your Interest</h2>
+        <p data-i18n="poles.subtitle">Select a department below — it will automatically sync with your contact request.</p>
+      </div>
+
+      <div class="pole-selector" id="poleSelector">
+        <button type="button" class="pole-option" data-pole="Programming" onclick="selectPole(this)">
+          <span class="pole-tag" data-i18n="poles.1.tag">Programming</span>
+          <span class="pole-icon">💻</span>
+          <span class="pole-name" data-i18n="poles.1.title">Web Development</span>
+          <span class="pole-desc" data-i18n="poles.1.desc">Fast, responsive websites with clean code and modern UI/UX design.</span>
+        </button>
+
+        <button type="button" class="pole-option" data-pole="Design" onclick="selectPole(this)">
+          <span class="pole-tag" data-i18n="poles.2.tag">Design</span>
+          <span class="pole-icon">🎨</span>
+          <span class="pole-name" data-i18n="poles.2.title">2D Graphics</span>
+          <span class="pole-desc" data-i18n="poles.2.desc">Branding, business cards, vector logos, and digital graphics.</span>
+        </button>
+
+        <button type="button" class="pole-option" data-pole="3D Graphics" onclick="selectPole(this)">
+          <span class="pole-tag" data-i18n="poles.3.tag">3D Graphics</span>
+          <span class="pole-icon">🌐</span>
+          <span class="pole-name" data-i18n="poles.3.title">Blender Modeling</span>
+          <span class="pole-desc" data-i18n="poles.3.desc">3D renders, architectural concepts, and futuristic environments.</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="section">
+    <div class="section-header">
+      <p class="badge">📬 <span data-i18n="contact.badge">CONTACT</span></p>
+      <h2 data-i18n="contact.title">Start a Project</h2>
+      <p data-i18n="contact.desc">Fill out the form below to get in touch or request club membership.</p>
+    </div>
+
+    <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+      <div class="form-hint" id="poleHint">
+        <span data-i18n="contact.selected">Selected Department:</span> <strong id="poleHintText">—</strong>
+      </div>
+
+      <div class="form-row">
+        <input type="text" name="name" data-i18n-placeholder="contact.name" placeholder="Your Name" required />
+        <input type="email" name="email" data-i18n-placeholder="contact.email" placeholder="Your Email" required />
+      </div>
+
+      <select name="pole" id="poleSelect" required>
+        <option value="" data-i18n="contact.pole.choose">— Select a Department —</option>
+        <option value="Programming" data-i18n="poles.1.title">Web Development</option>
+        <option value="Design" data-i18n="poles.2.title">2D Graphics</option>
+        <option value="3D Graphics" data-i18n="poles.3.title">Blender Modeling</option>
+        <option value="Other" data-i18n="contact.pole.other">Other / General Inquiry</option>
+      </select>
+
+      <textarea name="message" rows="4" data-i18n-placeholder="contact.message" placeholder="Your message..." required></textarea>
+
+      <button type="submit" class="btn btn-primary" data-i18n="contact.send">Send Message</button>
+    </form>
+
+    <div class="success" id="successMessage">
+      <h3 data-i18n="contact.success.title">Message Sent!</h3>
+      <p data-i18n="contact.success.desc">Thank you for reaching out. We will get back to you shortly.</p>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo-dh">DH CLUB</a>
+        <p data-i18n="footer.desc">Digital Hub Club — empowering minds through technology, design, and digital creation.</p>
+      </div>
+
+      <div>
+        <h4 data-i18n="footer.nav">Navigation</h4>
+        <ul>
+          <li><a href="#hero" data-i18n="nav.home">Home</a></li>
+          <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+          <li><a href="#poles" data-i18n="nav.poles">Our Departments</a></li>
+          <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 data-i18n="footer.follow">Follow Us</h4>
+        <a href="https://www.instagram.com/digital_hub.ac" target="_blank" rel="noopener" class="social-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+          <span>@digital_hub.ac</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 <strong>Digital Hub Club</strong> — <span data-i18n="footer.rights">All rights reserved.</span></p>
+      <p data-i18n="footer.made">Made with ❤️ by DH CLUB</p>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    /* ---------- TRANSLATIONS ---------- */
+    const T = {
+      en: {
+        "nav.home":"Home","nav.skills":"Skills","nav.poles":"Departments","nav.contact":"Contact",
+        "hero.badge":"INTRODUCTION","hero.title":"DH CLUB",
+        "hero.subtitle":"Welcome to Digital Hub Club, the ultimate tech and digital hub. Our platform connects creative minds passionate about innovation, visual art, and modern software development.",
+        "hero.cta1":"Explore Departments","hero.cta2":"Get in Touch",
+        "skills.badge":"SKILLS","skills.title":"Our Expertise",
+        "skills.1.title":"Programming","skills.1.desc":"Mastering web technologies, modern frameworks, and software development.",
+        "skills.2.title":"Graphic Design","skills.2.desc":"Creating impactful visual graphics, logos, posters, and tailored brand identities.",
+        "skills.3.title":"3D & Animation","skills.3.desc":"Modeling 3D environments, architectural spaces, and immersive animations.",
+        "skills.4.title":"Project Management","skills.4.desc":"Strategic planning, task coordination, agile methodology, and team leadership.",
+        "skills.5.title":"Art History","skills.5.desc":"Studying art movements, design fundamentals, and visual culture.",
+        "poles.badge":"DEPARTMENTS","poles.title":"Choose Your Interest",
+        "poles.subtitle":"Select a department below — it will automatically sync with your contact request.",
+        "poles.1.tag":"Programming","poles.1.title":"Web Development","poles.1.desc":"Fast, responsive websites with clean code and modern UI/UX design.",
+        "poles.2.tag":"Design","poles.2.title":"2D Graphics","poles.2.desc":"Branding, business cards, vector logos, and digital graphics.",
+        "poles.3.tag":"3D Graphics","poles.3.title":"Blender Modeling","poles.3.desc":"3D renders, architectural concepts, and futuristic environments.",
+        "contact.badge":"CONTACT","contact.title":"Start a Project",
+        "contact.desc":"Fill out the form below to get in touch or request club membership.",
+        "contact.name":"Your Name","contact.email":"Your Email","contact.message":"Your message...",
+        "contact.send":"Send Message","contact.selected":"Selected Department:",
+        "contact.pole.choose":"— Select a Department —","contact.pole.other":"Other / General Inquiry",
+        "contact.success.title":"Message Sent!","contact.success.desc":"Thank you for reaching out. We will get back to you shortly.",
+        "footer.desc":"Digital Hub Club — empowering minds through technology, design, and digital creation.",
+        "footer.nav":"Navigation","footer.follow":"Follow Us",
+        "footer.rights":"All rights reserved.","footer.made":"Made with ❤️ by DH CLUB"
+      },
+      fr: {
+        "nav.home":"Accueil","nav.skills":"Compétences","nav.poles":"Nos pôles","nav.contact":"Contact",
+        "hero.badge":"INTRODUCTION","hero.title":"DH CLUB",
+        "hero.subtitle":"Bienvenue au club informatique et digital Digital Hub Club. Notre plateforme rassemble les esprits passionnés par l'innovation, la création visuelle et le développement moderne.",
+        "hero.cta1":"Choisir un pôle","hero.cta2":"Nous contacter",
+        "skills.badge":"COMPÉTENCES","skills.title":"Notre savoir-faire",
+        "skills.1.title":"Programmation","skills.1.desc":"Maîtrise des langages et technologies du web et du développement logiciel.",
+        "skills.2.title":"Design Graphique","skills.2.desc":"Création visuelle percutante, logos, affiches et identités visuelles sur-mesure.",
+        "skills.3.title":"3D et Animation","skills.3.desc":"Modélisation d'espaces 3D, environnements et animations immersives.",
+        "skills.4.title":"Gestion de projets","skills.4.desc":"Planification stratégique, organisation des tâches et gestion d'équipe.",
+        "skills.5.title":"Histoire de l'art","skills.5.desc":"Étude des courants artistiques, esthétiques visuelles et culture artistique.",
+        "poles.badge":"NOS PÔLES","poles.title":"Quel pôle vous intéresse ?",
+        "poles.subtitle":"Sélectionnez le pôle qui vous intéresse — il sera automatiquement ajouté à votre message de contact.",
+        "poles.1.tag":"Programmation","poles.1.title":"Développement Web","poles.1.desc":"Sites web fluides et rapides, interfaces UI/UX uniques.",
+        "poles.2.tag":"Design","poles.2.title":"Création 2D","poles.2.desc":"Cartes de visite, logos, identités visuelles.",
+        "poles.3.tag":"Graphisme 3D","poles.3.title":"Modélisation Blender","poles.3.desc":"Décors et architectures : maisons, paysages futuristes.",
+        "contact.badge":"CONTACT","contact.title":"Démarrer un projet",
+        "contact.desc":"Remplissez le formulaire pour nous envoyer votre message ou demande d'adhésion.",
+        "contact.name":"Votre nom","contact.email":"Votre email","contact.message":"Votre message...",
+        "contact.send":"Envoyer le message","contact.selected":"Pôle sélectionné :",
+        "contact.pole.choose":"— Choisissez un pôle —","contact.pole.other":"Autre / Général",
+        "contact.success.title":"Message envoyé !","contact.success.desc":"Merci de nous avoir contactés. Nous vous répondrons sous peu.",
+        "footer.desc":"Digital Hub Club — le club informatique et digital qui rassemble les esprits passionnés par l'innovation et la création.",
+        "footer.nav":"Navigation","footer.follow":"Suivez-nous",
+        "footer.rights":"Tous droits réservés.","footer.made":"Fait avec ❤️ par DH CLUB"
+      },
+      ar: {
+        "nav.home":"الرئيسية","nav.skills":"المهارات","nav.poles":"أقسامنا","nav.contact":"اتصل بنا",
+        "hero.badge":"مقدمة","hero.title":"نادي DH",
+        "hero.subtitle":"مرحبًا بكم في النادي المعلوماتي والرقمي Digital Hub Club. منصتنا تجمع العقول الشغوفة بالابتكار والإبداع البصري والتطوير الحديث.",
+        "hero.cta1":"اختر قسمًا","hero.cta2":"اتصل بنا",
+        "skills.badge":"المهارات","skills.title":"خبراتنا",
+        "skills.1.title":"البرمجة","skills.1.desc":"إتقان لغات وتقنيات تطوير الويب والبرمجيات.",
+        "skills.2.title":"التصميم الجرافيكي","skills.2.desc":"إبداع بصري مؤثر، شعارات، ملصقات وهويات بصرية.",
+        "skills.3.title":"التصميم ثلاثي الأبعاد","skills.3.desc":"نمذجة الفضاءات ثلاثية الأبعاد والبيئات والرسوم المتحركة.",
+        "skills.4.title":"إدارة المشاريع","skills.4.desc":"التخطيط الاستراتيجي وتنظيم المهام وإدارة الفريق.",
+        "skills.5.title":"تاريخ الفن","skills.5.desc":"دراسة الحركات الفنية والجماليات البصرية والثقافة الفنية.",
+        "poles.badge":"أقسامنا","poles.title":"أي قسم يهمك؟",
+        "poles.subtitle":"اختر القسم الذي يهمك — سيتم إضافته تلقائيًا إلى رسالتك.",
+        "poles.1.tag":"البرمجة","poles.1.title":"تطوير الويب","poles.1.desc":"مواقع ويب سريعة وسلسة بواجهات فريدة.",
+        "poles.2.tag":"التصميم","poles.2.title":"الإبداع ثنائي الأبعاد","poles.2.desc":"بطاقات العمل، الشعارات، الهويات البصرية.",
+        "poles.3.tag":"الجرافيك ثلاثي الأبعاد","poles.3.title":"نمذجة Blender","poles.3.desc":"ديكورات ومعمار: منازل، مناظر مستقبلية.",
+        "contact.badge":"اتصل بنا","contact.title":"ابدأ مشروعًا",
+        "contact.desc":"املأ النموذج لإرسال رسالتك أو طلب الانضمام.",
+        "contact.name":"اسمك","contact.email":"بريدك الإلكتروني","contact.message":"رسالتك...",
+        "contact.send":"إرسال الرسالة","contact.selected":"القسم المختار:",
+        "contact.pole.choose":"— اختر قسمًا —","contact.pole.other":"أخرى / عام",
+        "contact.success.title":"تم إرسال الرسالة!","contact.success.desc":"شكرًا لتواصلك معنا. سنرد عليك قريبًا.",
+        "footer.desc":"Digital Hub Club — النادي المعلوماتي والرقمي الذي يجمع العقول الشغوفة بالابتكار والإبداع.",
+        "footer.nav":"التنقل","footer.follow":"تابعنا",
+        "footer.rights":"جميع الحقوق محفوظة.","footer.made":"صُنع بـ ❤️ من DH CLUB"
+      }
+    };
+
+    /* ---------- LANGUAGE SWITCHER ---------- */
+    function setLang(lang) {
+      localStorage.setItem('lang', lang);
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (T[lang] && T[lang][k]) el.textContent = T[lang][k];
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const k = el.getAttribute('data-i18n-placeholder');
+        if (T[lang] && T[lang][k]) el.setAttribute('placeholder', T[lang][k]);
+      });
+
+      document.querySelectorAll('.lang-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+
+      const selectedPole = document.querySelector('.pole-option.selected');
+      if (selectedPole) updatePoleHint(selectedPole.dataset.pole);
+    }
+
+    /* ---------- THEME TOGGLE ---------- */
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
+    }
+
+    /* ---------- CUSTOMIZER CONTROLS ---------- */
+    function toggleCustomizer() {
+      document.getElementById('customizerDrawer').classList.toggle('open');
+    }
+
+    function changeAccentColor(color) {
+      document.documentElement.style.setProperty('--accent', color);
+    }
+
+    function changeRadius(px) {
+      document.documentElement.style.setProperty('--radius', px + 'px');
+    }
+
+    /* ---------- MENU ---------- */
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+    });
+
+    /* ---------- SELECTION LOGIC ---------- */
+    function selectPole(btn) {
+      document.querySelectorAll('.pole-option').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+
+      const poleName = btn.dataset.pole;
+      const select = document.getElementById('poleSelect');
+      if (select) select.value = poleName;
+
+      updatePoleHint(poleName);
+      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function updatePoleHint(poleName) {
+      const hint = document.getElementById('poleHint');
+      const hintText = document.getElementById('poleHintText');
+      if (hint && hintText) {
+        hintText.textContent = poleName;
+        hint.classList.add('show');
+      }
+    }
+
+    document.getElementById('poleSelect')?.addEventListener('change', (e) => {
+      const val = e.target.value;
+      document.querySelectorAll('.pole-option').forEach(b => {
+        b.classList.toggle('selected', b.dataset.pole === val);
+      });
+      if (val) {
+        updatePoleHint(val);
+      } else {
+        document.getElementById('poleHint').classList.remove('show');
+      }
+    });
+
+    /* ---------- FORM HANDLER ---------- */
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('successMessage').classList.add('show');
+    }
+
+    /* ---------- INIT ---------- */
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('lang') || 'en';
+      setLang(savedLang);
+
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+        document.getElementById('themeToggle').textContent = '☀️';
+      }
+    });
+  </script>
+</body>
+</html>
