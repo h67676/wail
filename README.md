@@ -1,1 +1,236 @@
-# wail
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#dff2ff">
+  <meta name="description" content="Digital Hub Club — technology, design and digital creation.">
+  <title>DH CLUB — Digital Hub Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#e5f4ff;--text:#29415f;--muted:#66809a;--pink:#e992bd;--pink2:#d879aa;--blue:#8bc4ef;
+      --glass:rgba(255,255,255,.48);--glass-strong:rgba(255,255,255,.68);--line:rgba(255,255,255,.86);
+      --shadow:0 18px 55px rgba(87,139,183,.15);--shadow-soft:0 10px 30px rgba(87,139,183,.11);
+      --radius:25px;--ease:all .32s cubic-bezier(.2,.75,.2,1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:100px}
+    body{min-height:100vh;overflow-x:hidden;font-family:Poppins,Tajawal,sans-serif;color:var(--text);line-height:1.65;background:#e5f4ff;
+      background-image:radial-gradient(ellipse at 8% 8%,#fff 0,transparent 27%),radial-gradient(ellipse at 90% 14%,rgba(255,190,222,.72),transparent 30%),radial-gradient(ellipse at 80% 80%,rgba(151,211,255,.7),transparent 34%),radial-gradient(ellipse at 10% 90%,rgba(255,224,240,.55),transparent 28%),linear-gradient(135deg,#d9f0ff,#eef8ff 48%,#fceefa);background-attachment:fixed;isolation:isolate;transition:background .4s,color .4s}
+    body::before,body::after{content:"";position:fixed;z-index:-2;pointer-events:none;border-radius:50%;filter:blur(45px);animation:cloudDrift 20s ease-in-out infinite alternate}
+    body::before{width:420px;height:420px;left:-170px;top:13%;background:rgba(255,178,216,.38)}
+    body::after{width:480px;height:480px;right:-190px;bottom:-10%;background:rgba(128,199,247,.38);animation-delay:-9s}
+    @keyframes cloudDrift{to{transform:translate(42px,-35px) scale(1.12)}}
+    a{color:inherit;text-decoration:none}button,input,textarea,select{font:inherit}button{cursor:pointer}
+    .ambient{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+    .orb{position:absolute;border-radius:50%;filter:blur(35px);opacity:.44;animation:orbFloat 22s ease-in-out infinite alternate}
+    .orb.a{width:240px;height:240px;top:25%;left:14%;background:rgba(255,173,215,.65)}
+    .orb.b{width:320px;height:320px;top:48%;right:8%;background:rgba(117,195,255,.52);animation-delay:-8s}
+    .orb.c{width:180px;height:180px;bottom:7%;left:45%;background:rgba(255,255,255,.85);animation-delay:-13s}
+    @keyframes orbFloat{to{transform:translate(40px,-38px) scale(1.15)}}
+    #stars{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+    .star{position:absolute;color:rgba(255,255,255,.98);line-height:1;text-shadow:0 0 8px #fff,0 0 20px rgba(126,190,240,.85);animation:starMove var(--time) ease-in-out var(--delay) infinite alternate,twinkle 3.8s ease-in-out var(--delay) infinite;will-change:transform,opacity}
+    @keyframes starMove{to{transform:translate(22px,-30px) rotate(25deg)}}
+    @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
+    #cursorGlow{position:fixed;left:0;top:0;width:300px;height:300px;z-index:1;pointer-events:none;opacity:0;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.35),rgba(255,190,220,.09) 44%,transparent 70%);transition:opacity .3s}
+    @media(hover:hover) and (pointer:fine){body:hover #cursorGlow{opacity:1}}
+    #progress{position:fixed;left:0;top:0;width:0;height:4px;z-index:2000;background:linear-gradient(90deg,#f0a2c9,#9fd8ff,#fff);box-shadow:0 0 15px rgba(233,146,189,.7)}
+    .navbar{position:sticky;top:10px;z-index:100;width:min(1220px,calc(100% - 28px));margin:10px auto 0;padding:12px 20px;display:flex;align-items:center;gap:18px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.58);box-shadow:0 12px 38px rgba(87,139,183,.13),inset 0 1px 0 #fff;backdrop-filter:blur(26px) saturate(170%);-webkit-backdrop-filter:blur(26px) saturate(170%)}
+    .logo{display:flex;align-items:center;gap:8px;font-size:21px;font-weight:800;white-space:nowrap;transition:var(--ease)}.logo:hover{transform:translateY(-2px)}
+    .logo-dh,.hero h1{font-family:Orbitron,sans-serif;font-weight:900;letter-spacing:1px;background:linear-gradient(115deg,#e68bb8 4%,#91c7ef 52%,#699ed6 96%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 5px 12px rgba(153,178,220,.2))}
+    .logo-dh{font-size:27px}.logo-sub{font-family:Orbitron,sans-serif;font-size:14px;letter-spacing:1px}.logo-sub span{color:var(--pink)}
+    .nav-links{display:flex;gap:25px;list-style:none;margin-inline-start:auto}.nav-links a{position:relative;color:var(--muted);font-size:13px;font-weight:600;transition:var(--ease);padding:8px 0}.nav-links a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:2px;border-radius:4px;background:linear-gradient(90deg,var(--pink),var(--blue));transition:right .3s}.nav-links a:hover{color:var(--pink2)}.nav-links a:hover::after{right:0}
+    .nav-actions{display:flex;align-items:center;gap:7px}.lang-switch{display:flex;gap:4px}.lang-btn,.icon-btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.9);background:rgba(255,255,255,.45);color:var(--text);border-radius:11px;padding:7px 10px;font-size:12px;font-weight:700;transition:var(--ease);backdrop-filter:blur(12px)}.lang-btn:hover,.icon-btn:hover{transform:translateY(-2px);border-color:var(--pink);color:var(--pink2)}.lang-btn.active{color:white;background:linear-gradient(120deg,var(--pink),var(--blue));border-color:transparent;box-shadow:0 7px 18px rgba(198,135,177,.22)}.icon-btn{width:37px;height:37px;padding:0;font-size:16px}.burger{display:none}
+    .customizer{position:fixed;z-index:1200;top:85px;inset-inline-end:20px;width:260px;padding:20px;border-radius:22px;border:1px solid var(--line);background:rgba(255,255,255,.78);box-shadow:var(--shadow);backdrop-filter:blur(25px);transform:translateX(calc(100% + 35px));opacity:0;visibility:hidden;transition:var(--ease)}.customizer.open{transform:translateX(0);opacity:1;visibility:visible}.customizer h3{font-size:15px;margin-bottom:15px}.customizer label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}.customizer-group{margin-bottom:15px}.customizer input[type=color]{width:100%;height:38px;border:0;border-radius:9px;background:transparent}.customizer input[type=range]{width:100%;accent-color:var(--pink)}
+    .hero{position:relative;z-index:2;text-align:center;padding:78px 22px 55px}.hero-inner{position:relative;isolation:isolate;overflow:hidden;width:min(850px,100%);margin:auto;padding:clamp(30px,5vw,60px);border:1px solid rgba(255,255,255,.92);border-radius:34px;background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,.32));box-shadow:0 30px 90px rgba(94,145,188,.18),inset 0 1px 0 #fff;backdrop-filter:blur(30px) saturate(175%);animation:heroEnter .9s cubic-bezier(.2,.75,.2,1) both}
+    .hero-inner::before{content:"";position:absolute;z-index:-1;top:-80%;bottom:-80%;left:-55%;width:42%;transform:rotate(24deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:shine 9s ease-in-out infinite}
+    @keyframes shine{0%,55%{left:-55%;opacity:0}65%{opacity:.9}100%{left:130%;opacity:0}}@keyframes heroEnter{from{opacity:0;transform:translateY(24px) scale(.985)}to{opacity:1;transform:none}}
+    .badge{display:inline-block;margin-bottom:17px;padding:6px 14px;border:1px solid rgba(255,255,255,.9);border-radius:999px;background:rgba(255,224,239,.72);color:#c96e9d;font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;box-shadow:0 7px 22px rgba(229,142,184,.13)}
+    .hero h1{font-size:clamp(42px,8vw,78px);line-height:1.12;margin-bottom:18px}.lead{max-width:650px;margin:0 auto 28px;color:var(--muted);font-size:clamp(14px,2vw,17px)}.hero-buttons{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+    .btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border:1px solid transparent;border-radius:999px;font-size:13px;font-weight:700;transition:var(--ease)}.btn::before{content:"";position:absolute;z-index:-1;top:-100%;left:-40%;width:34%;height:300%;transform:rotate(24deg);background:rgba(255,255,255,.4);transition:left .65s}.btn:hover::before{left:125%}.btn-primary{color:white;background:linear-gradient(120deg,#e99bc0,#8bbce9);box-shadow:0 13px 28px rgba(198,135,177,.25),inset 0 1px 0 rgba(255,255,255,.4)}.btn-primary:hover{transform:translateY(-3px);box-shadow:0 17px 32px rgba(163,135,190,.29)}.btn-outline{color:var(--text);border-color:rgba(255,255,255,.95);background:rgba(255,255,255,.35);backdrop-filter:blur(12px)}.btn-outline:hover{transform:translateY(-3px);color:var(--pink2);border-color:var(--pink)}
+    .section{position:relative;z-index:2;width:min(1150px,calc(100% - 34px));margin:24px auto;padding:65px 26px;border:1px solid rgba(255,255,255,.78);border-radius:30px;background:rgba(255,255,255,.25);box-shadow:var(--shadow);backdrop-filter:blur(16px)}.section-alt{width:100%;max-width:none;padding:30px 17px;border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none}.section-alt>.inner{width:min(1150px,100%);margin:auto;padding:48px 28px;border:1px solid rgba(255,255,255,.84);border-radius:30px;background:rgba(255,255,255,.38);box-shadow:var(--shadow);backdrop-filter:blur(24px) saturate(160%)}
+    .section-header{text-align:center;margin-bottom:38px}.section-header h2{font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:-.5px;margin-bottom:9px;text-shadow:0 5px 18px rgba(108,150,190,.1)}.section-header p:not(.badge){max-width:600px;margin:auto;color:var(--muted)}
+    .grid{display:grid;gap:20px}.grid-3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}.card{position:relative;isolation:isolate;overflow:hidden;padding:25px;border:1px solid rgba(255,255,255,.92);border-radius:var(--radius);background:linear-gradient(145deg,rgba(255,255,255,.68),rgba(255,255,255,.35));box-shadow:0 16px 42px rgba(95,145,187,.13),inset 0 1px 0 #fff;backdrop-filter:blur(24px) saturate(170%);transform:perspective(1000px) rotateX(var(--ty,0deg)) rotateY(var(--tx,0deg));transition:transform .24s ease,box-shadow .3s,border-color .3s}.card::before{content:"";position:absolute;inset:0;z-index:-1;opacity:0;pointer-events:none;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.85),transparent 44%);transition:opacity .3s}.card:hover{transform:perspective(1000px) rotateX(var(--ty,0deg)) rotateY(var(--tx,0deg)) translateY(-8px);border-color:rgba(233,146,189,.65);box-shadow:0 24px 55px rgba(105,147,190,.2)}.card:hover::before{opacity:.7}.card .icon{display:grid;place-items:center;width:58px;height:58px;margin-bottom:15px;border-radius:18px;background:linear-gradient(145deg,rgba(255,226,241,.95),rgba(220,241,255,.95));box-shadow:0 10px 22px rgba(127,161,199,.14),inset 0 1px 0 #fff;font-size:29px}.card h3{font-size:17px;font-weight:800;margin-bottom:8px}.card p{font-size:13px;color:var(--muted)}
+    .pole-selector{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:17px}.pole-option{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:7px;overflow:hidden;padding:23px 20px;border:1px solid rgba(255,255,255,.92);border-radius:var(--radius);background:linear-gradient(145deg,rgba(255,255,255,.68),rgba(255,255,255,.34));color:var(--text);text-align:start;box-shadow:0 14px 36px rgba(95,145,187,.12);backdrop-filter:blur(22px);transition:var(--ease)}.pole-option:hover{transform:translateY(-7px);border-color:rgba(233,146,189,.7);box-shadow:0 20px 45px rgba(190,137,177,.18)}.pole-option.selected{border-color:rgba(226,133,179,.9);background:linear-gradient(135deg,rgba(255,226,240,.75),rgba(213,237,255,.68));box-shadow:0 0 0 3px rgba(229,142,184,.13),0 16px 42px rgba(218,139,184,.18)}.pole-option.selected::after{content:"✓";position:absolute;top:13px;inset-inline-end:14px;display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--blue));color:white;font-weight:800;animation:pop .3s}.pole-tag{padding:3px 10px;border-radius:99px;background:rgba(255,225,239,.8);color:#c96e9d;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase}.pole-icon{font-size:28px}.pole-name{font-size:16px;font-weight:800}.pole-desc{color:var(--muted);font-size:13px;line-height:1.55}@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+    .contact-form{display:flex;flex-direction:column;gap:14px;width:min(680px,100%);margin:auto;padding:clamp(22px,4vw,34px);border:1px solid rgba(255,255,255,.94);border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.72),rgba(255,255,255,.40));box-shadow:0 26px 70px rgba(94,145,188,.17),inset 0 1px 0 #fff;backdrop-filter:blur(26px) saturate(170%)}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:13px}.contact-form input,.contact-form textarea,.contact-form select{width:100%;padding:13px 15px;border:1px solid rgba(255,255,255,.96);border-radius:14px;outline:none;background:rgba(255,255,255,.62);color:var(--text);font-size:13px;box-shadow:inset 0 2px 6px rgba(117,159,190,.05);transition:var(--ease)}.contact-form input::placeholder,.contact-form textarea::placeholder{color:#7890a9}.contact-form input:focus,.contact-form textarea:focus,.contact-form select:focus{border-color:var(--pink);background:rgba(255,255,255,.85);box-shadow:0 0 0 4px rgba(229,142,184,.14);transform:translateY(-1px)}.contact-form textarea{min-height:115px;resize:vertical}.contact-form .btn{align-self:flex-start}.form-hint{display:none;padding:9px 12px;border:1px solid rgba(255,255,255,.85);border-radius:10px;background:rgba(219,239,255,.65);color:#55718e;font-size:12px}.form-hint.show{display:block}.form-hint strong{color:#c96e9d}.success{display:none;width:min(680px,100%);margin:20px auto 0;padding:22px;border:1px solid rgba(255,255,255,.92);border-radius:22px;background:rgba(255,255,255,.62);color:#477d78;text-align:center;box-shadow:var(--shadow);backdrop-filter:blur(20px)}.success.show{display:block;animation:fadeUp .45s ease}.success p{font-size:13px}@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .footer{position:relative;z-index:2;margin-top:48px;padding:48px 24px 0;border:1px solid rgba(255,255,255,.82);border-bottom:0;border-radius:28px 28px 0 0;background:rgba(255,255,255,.48);box-shadow:0 -12px 44px rgba(94,145,188,.09);backdrop-filter:blur(24px)}.footer-inner{display:grid;grid-template-columns:2fr 1fr 1.3fr;gap:32px;width:min(1150px,100%);margin:auto;padding-bottom:35px}.footer h4{font-size:14px;margin-bottom:13px}.footer ul{display:flex;flex-direction:column;gap:8px;list-style:none}.footer ul a,.footer-brand p{color:var(--muted);font-size:13px}.footer ul a:hover{color:var(--pink2)}.footer-brand .logo-dh{display:inline-block;font-size:32px;margin-bottom:10px}.footer-brand p{max-width:340px}.social-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 15px;border:1px solid rgba(255,255,255,.92);border-radius:999px;background:rgba(255,255,255,.44);font-size:13px;transition:var(--ease)}.social-btn:hover{transform:translateY(-4px);color:white;background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);box-shadow:0 12px 25px rgba(198,135,177,.2)}.footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;width:min(1150px,100%);margin:auto;padding:18px 0;border-top:1px solid rgba(255,255,255,.8);color:var(--muted);font-size:11px}.footer-bottom strong{color:var(--pink2)}
+    .reveal-ready .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.75,.2,1)}.reveal-ready .reveal.visible{opacity:1;transform:none}.back-top{position:fixed;right:20px;bottom:20px;z-index:1500;width:46px;height:46px;border:1px solid rgba(255,255,255,.95);border-radius:16px;background:rgba(255,255,255,.68);color:#bd78a0;font-size:21px;box-shadow:var(--shadow-soft);backdrop-filter:blur(18px);opacity:0;visibility:hidden;transform:translateY(12px);transition:var(--ease)}.back-top.visible{opacity:1;visibility:visible;transform:none}.back-top:hover{transform:translateY(-4px);background:#fff}
+    /* Optional cool-blue night mode. The page always opens in the bright theme. */
+    body.dark{color:#eff7ff;background-image:radial-gradient(ellipse at 12% 12%,rgba(113,165,205,.28),transparent 34%),radial-gradient(ellipse at 88% 18%,rgba(177,117,164,.26),transparent 30%),linear-gradient(135deg,#294969,#365c7b 55%,#66516f)}body.dark .navbar,body.dark .hero-inner,body.dark .section,body.dark .section-alt>.inner,body.dark .card,body.dark .pole-option,body.dark .contact-form,body.dark .footer,body.dark .customizer,body.dark .success{background:rgba(24,48,73,.64);border-color:rgba(255,255,255,.2)}body.dark .nav-links a,body.dark .card p,body.dark .section-header p,body.dark .footer p,body.dark .footer ul a{color:#d0e2f1}body.dark .contact-form input,body.dark .contact-form textarea,body.dark .contact-form select{background:rgba(255,255,255,.1);color:#f4f9ff;border-color:rgba(255,255,255,.23)}body.dark .contact-form input::placeholder,body.dark .contact-form textarea::placeholder{color:#c5d6e6}body.dark .lang-btn,body.dark .icon-btn,body.dark .social-btn,body.dark .back-top{background:rgba(255,255,255,.12);color:#f4f9ff;border-color:rgba(255,255,255,.22)}body.dark .nav-links{background:rgba(24,48,73,.95)}body.dark .pole-name,body.dark .card h3{color:#f4f9ff}body.dark .form-hint{background:rgba(242,168,204,.16);color:#f8deeb;border-color:rgba(255,255,255,.2)}
+    @media(max-width:880px){.navbar{gap:10px;padding:10px 14px}.nav-links{position:absolute;top:calc(100% + 8px);left:0;right:0;display:flex;flex-direction:column;gap:0;max-height:0;overflow:hidden;margin:0;border:0;border-radius:0 0 18px 18px;background:rgba(245,251,255,.96);box-shadow:0 18px 35px rgba(87,139,183,.13);backdrop-filter:blur(22px);transition:max-height .35s ease}.nav-links.open{max-height:310px;border:1px solid rgba(255,255,255,.9)}.nav-links li{padding:12px 20px;border-top:1px solid rgba(255,255,255,.8)}.nav-actions{margin-inline-start:auto}.burger{display:inline-flex}.footer-inner{grid-template-columns:1.5fr 1fr}.footer-inner>div:last-child{grid-column:1/-1}}
+    @media(max-width:600px){.navbar{width:calc(100% - 16px);margin-top:6px;top:6px}.logo{font-size:17px;gap:5px}.logo-dh{font-size:23px}.logo-sub{font-size:11px}.nav-actions{gap:4px}.lang-btn{padding:6px 7px;font-size:10px}.icon-btn{width:32px;height:32px;font-size:14px}.hero{padding:48px 12px 35px}.hero-inner{padding:30px 18px;border-radius:25px}.hero-buttons .btn{width:100%}.section{width:calc(100% - 20px);padding:45px 16px;margin:15px auto;border-radius:24px}.section-alt{width:100%;padding:20px 10px}.section-alt>.inner{padding:30px 15px;border-radius:24px}.form-row{grid-template-columns:1fr}.contact-form .btn{align-self:stretch}.footer-inner{grid-template-columns:1fr;gap:24px}.footer-inner>div:last-child{grid-column:auto}.footer-bottom{flex-direction:column;text-align:center}.back-top{right:12px;bottom:12px}.orb.a{width:160px;height:160px}.orb.b{width:210px;height:210px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal-ready .reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <div id="progress" aria-hidden="true"></div>
+  <div class="ambient" aria-hidden="true"><span class="orb a"></span><span class="orb b"></span><span class="orb c"></span></div>
+  <div id="stars" aria-hidden="true"></div>
+  <div id="cursorGlow" aria-hidden="true"></div>
+
+  <nav class="navbar" aria-label="Main navigation">
+    <a href="#hero" class="logo"><span class="logo-dh">DH</span><span class="logo-sub">CLUB<span>.</span></span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero" data-i18n="nav.home">Home</a></li>
+      <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="#poles" data-i18n="nav.poles">Departments</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="lang-switch" aria-label="Choose language">
+        <button class="lang-btn active" type="button" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" type="button" data-lang="fr" onclick="setLang('fr')">FR</button>
+        <button class="lang-btn" type="button" data-lang="ar" onclick="setLang('ar')">ع</button>
+      </div>
+      <button class="icon-btn" id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Toggle appearance">☾</button>
+      <button class="icon-btn" type="button" onclick="toggleCustomizer()" aria-label="Customize appearance">✧</button>
+      <button class="icon-btn burger" type="button" onclick="toggleMenu()" aria-label="Open menu">☰</button>
+    </div>
+  </nav>
+
+  <aside class="customizer" id="customizer" aria-label="Style settings">
+    <h3>✦ Live Style Editor</h3>
+    <div class="customizer-group"><label for="accentColor">Accent color</label><input id="accentColor" type="color" value="#e992bd" oninput="changeAccent(this.value)"></div>
+    <div class="customizer-group"><label for="radiusRange">Roundness</label><input id="radiusRange" type="range" min="12" max="34" value="25" oninput="changeRadius(this.value)"></div>
+  </aside>
+
+  <header class="hero" id="hero">
+    <div class="hero-inner">
+      <p class="badge">✦ <span data-i18n="hero.badge">INTRODUCTION</span></p>
+      <h1 data-i18n="hero.title">DH CLUB</h1>
+      <p class="lead" data-i18n="hero.subtitle">Welcome to Digital Hub Club, the ultimate tech and digital hub. Our platform connects creative minds passionate about innovation, visual art, and modern software development.</p>
+      <div class="hero-buttons">
+        <a href="#poles" class="btn btn-primary" data-i18n="hero.cta1">Explore Departments</a>
+        <a href="#contact" class="btn btn-outline" data-i18n="hero.cta2">Get in Touch</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="section" id="skills">
+    <div class="section-header">
+      <p class="badge">✧ <span data-i18n="skills.badge">SKILLS</span></p>
+      <h2 data-i18n="skills.title">Our Expertise</h2>
+    </div>
+    <div class="grid grid-3">
+      <article class="card"><div class="icon">💻</div><h3 data-i18n="skills.1.title">Programming</h3><p data-i18n="skills.1.desc">Mastering web technologies, modern frameworks, and software development.</p></article>
+      <article class="card"><div class="icon">🎨</div><h3 data-i18n="skills.2.title">Graphic Design</h3><p data-i18n="skills.2.desc">Creating impactful visual graphics, logos, posters, and tailored brand identities.</p></article>
+      <article class="card"><div class="icon">🌐</div><h3 data-i18n="skills.3.title">3D & Animation</h3><p data-i18n="skills.3.desc">Modeling 3D environments, architectural spaces, and immersive animations.</p></article>
+      <article class="card"><div class="icon">📊</div><h3 data-i18n="skills.4.title">Project Management</h3><p data-i18n="skills.4.desc">Strategic planning, task coordination, agile methodology, and team leadership.</p></article>
+      <article class="card"><div class="icon">🏛️</div><h3 data-i18n="skills.5.title">Art History</h3><p data-i18n="skills.5.desc">Studying art movements, design fundamentals, and visual culture.</p></article>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="poles">
+    <div class="inner">
+      <div class="section-header">
+        <p class="badge">✦ <span data-i18n="poles.badge">DEPARTMENTS</span></p>
+        <h2 data-i18n="poles.title">Choose Your Interest</h2>
+        <p data-i18n="poles.subtitle">Select a department below — it will automatically sync with your contact request.</p>
+      </div>
+      <div class="pole-selector" id="poleSelector">
+        <button type="button" class="pole-option" data-pole="Programming" onclick="selectPole(this)"><span class="pole-tag" data-i18n="poles.1.tag">Programming</span><span class="pole-icon">💻</span><span class="pole-name" data-i18n="poles.1.title">Web Development</span><span class="pole-desc" data-i18n="poles.1.desc">Fast, responsive websites with clean code and modern UI/UX design.</span></button>
+        <button type="button" class="pole-option" data-pole="Design" onclick="selectPole(this)"><span class="pole-tag" data-i18n="poles.2.tag">Design</span><span class="pole-icon">🎨</span><span class="pole-name" data-i18n="poles.2.title">2D Graphics</span><span class="pole-desc" data-i18n="poles.2.desc">Branding, business cards, vector logos, and digital graphics.</span></button>
+        <button type="button" class="pole-option" data-pole="3D Graphics" onclick="selectPole(this)"><span class="pole-tag" data-i18n="poles.3.tag">3D Graphics</span><span class="pole-icon">🌐</span><span class="pole-name" data-i18n="poles.3.title">Blender Modeling</span><span class="pole-desc" data-i18n="poles.3.desc">3D renders, architectural concepts, and futuristic environments.</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="section-header">
+      <p class="badge">♡ <span data-i18n="contact.badge">CONTACT</span></p>
+      <h2 data-i18n="contact.title">Start a Project</h2>
+      <p data-i18n="contact.desc">Fill out the form below to get in touch or request club membership.</p>
+    </div>
+    <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+      <div class="form-hint" id="poleHint"><span data-i18n="contact.selected">Selected Department:</span> <strong id="poleHintText">—</strong></div>
+      <div class="form-row">
+        <input type="text" name="name" autocomplete="name" data-i18n-placeholder="contact.name" placeholder="Your Name" required>
+        <input type="email" name="email" autocomplete="email" data-i18n-placeholder="contact.email" placeholder="Your Email" required>
+      </div>
+      <select name="pole" id="poleSelect" required>
+        <option value="" data-i18n="contact.pole.choose">— Select a Department —</option>
+        <option value="Programming" data-i18n="poles.1.title">Web Development</option>
+        <option value="Design" data-i18n="poles.2.title">2D Graphics</option>
+        <option value="3D Graphics" data-i18n="poles.3.title">Blender Modeling</option>
+        <option value="Other" data-i18n="contact.pole.other">Other / General Inquiry</option>
+      </select>
+      <textarea name="message" rows="4" data-i18n-placeholder="contact.message" placeholder="Your message..." required></textarea>
+      <button type="submit" class="btn btn-primary" data-i18n="contact.send">Send Message</button>
+    </form>
+    <div class="success" id="successMessage" role="status" aria-live="polite"><h3 data-i18n="contact.success.title">Message prepared!</h3><p data-i18n="contact.success.desc">Thank you for your interest. This demo form does not send data yet.</p></div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand"><a href="#hero" class="logo-dh">DH CLUB</a><p data-i18n="footer.desc">Digital Hub Club — empowering minds through technology, design, and digital creation.</p></div>
+      <div><h4 data-i18n="footer.nav">Navigation</h4><ul><li><a href="#hero" data-i18n="nav.home">Home</a></li><li><a href="#skills" data-i18n="nav.skills">Skills</a></li><li><a href="#poles" data-i18n="nav.poles">Departments</a></li><li><a href="#contact" data-i18n="nav.contact">Contact</a></li></ul></div>
+      <div><h4 data-i18n="footer.follow">Follow Us</h4><a href="https://www.instagram.com/digital_hub.ac" target="_blank" rel="noopener noreferrer" class="social-btn"><span>◎</span><span>@digital_hub.ac</span></a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 <strong>Digital Hub Club</strong> — <span data-i18n="footer.rights">All rights reserved.</span></p><p data-i18n="footer.made">Made with ❤️ by DH CLUB</p></div>
+  </footer>
+
+  <button class="back-top" id="backTop" type="button" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <script>
+    const translations = {
+      en: {
+        "nav.home":"Home","nav.skills":"Skills","nav.poles":"Departments","nav.contact":"Contact",
+        "hero.badge":"INTRODUCTION","hero.title":"DH CLUB","hero.subtitle":"Welcome to Digital Hub Club, the ultimate tech and digital hub. Our platform connects creative minds passionate about innovation, visual art, and modern software development.","hero.cta1":"Explore Departments","hero.cta2":"Get in Touch",
+        "skills.badge":"SKILLS","skills.title":"Our Expertise","skills.1.title":"Programming","skills.1.desc":"Mastering web technologies, modern frameworks, and software development.","skills.2.title":"Graphic Design","skills.2.desc":"Creating impactful visual graphics, logos, posters, and tailored brand identities.","skills.3.title":"3D & Animation","skills.3.desc":"Modeling 3D environments, architectural spaces, and immersive animations.","skills.4.title":"Project Management","skills.4.desc":"Strategic planning, task coordination, agile methodology, and team leadership.","skills.5.title":"Art History","skills.5.desc":"Studying art movements, design fundamentals, and visual culture.",
+        "poles.badge":"DEPARTMENTS","poles.title":"Choose Your Interest","poles.subtitle":"Select a department below — it will automatically sync with your contact request.","poles.1.tag":"Programming","poles.1.title":"Web Development","poles.1.desc":"Fast, responsive websites with clean code and modern UI/UX design.","poles.2.tag":"Design","poles.2.title":"2D Graphics","poles.2.desc":"Branding, business cards, vector logos, and digital graphics.","poles.3.tag":"3D Graphics","poles.3.title":"Blender Modeling","poles.3.desc":"3D renders, architectural concepts, and futuristic environments.",
+        "contact.badge":"CONTACT","contact.title":"Start a Project","contact.desc":"Fill out the form below to get in touch or request club membership.","contact.name":"Your Name","contact.email":"Your Email","contact.message":"Your message...","contact.send":"Send Message","contact.selected":"Selected Department:","contact.pole.choose":"— Select a Department —","contact.pole.other":"Other / General Inquiry","contact.success.title":"Message prepared!","contact.success.desc":"Thank you for your interest. This demo form does not send data yet.",
+        "footer.desc":"Digital Hub Club — empowering minds through technology, design, and digital creation.","footer.nav":"Navigation","footer.follow":"Follow Us","footer.rights":"All rights reserved.","footer.made":"Made with ❤️ by DH CLUB"
+      },
+      fr: {
+        "nav.home":"Accueil","nav.skills":"Compétences","nav.poles":"Nos pôles","nav.contact":"Contact",
+        "hero.badge":"INTRODUCTION","hero.title":"DH CLUB","hero.subtitle":"Bienvenue au Digital Hub Club, un espace dédié à la technologie et à la création numérique. Notre plateforme rassemble les esprits passionnés par l'innovation, l'art visuel et le développement moderne.","hero.cta1":"Découvrir les pôles","hero.cta2":"Nous contacter",
+        "skills.badge":"COMPÉTENCES","skills.title":"Notre savoir-faire","skills.1.title":"Programmation","skills.1.desc":"Maîtrise des technologies web, des frameworks modernes et du développement logiciel.","skills.2.title":"Design graphique","skills.2.desc":"Création de visuels, logos, affiches et identités de marque personnalisées.","skills.3.title":"3D et animation","skills.3.desc":"Modélisation d'environnements 3D, d'espaces architecturaux et d'animations immersives.","skills.4.title":"Gestion de projets","skills.4.desc":"Planification stratégique, coordination des tâches et organisation d'équipe.","skills.5.title":"Histoire de l'art","skills.5.desc":"Découverte des mouvements artistiques, du design et de la culture visuelle.",
+        "poles.badge":"NOS PÔLES","poles.title":"Quel pôle vous intéresse ?","poles.subtitle":"Choisissez un pôle — il sera automatiquement ajouté à votre demande de contact.","poles.1.tag":"Programmation","poles.1.title":"Développement web","poles.1.desc":"Des sites rapides et adaptatifs avec un code propre et une interface moderne.","poles.2.tag":"Design","poles.2.title":"Graphisme 2D","poles.2.desc":"Identité visuelle, cartes de visite, logos vectoriels et créations numériques.","poles.3.tag":"Graphisme 3D","poles.3.title":"Modélisation Blender","poles.3.desc":"Rendus 3D, concepts architecturaux et environnements futuristes.",
+        "contact.badge":"CONTACT","contact.title":"Démarrer un projet","contact.desc":"Remplissez le formulaire pour nous contacter ou demander à rejoindre le club.","contact.name":"Votre nom","contact.email":"Votre email","contact.message":"Votre message...","contact.send":"Envoyer le message","contact.selected":"Pôle sélectionné :","contact.pole.choose":"— Choisissez un pôle —","contact.pole.other":"Autre / Demande générale","contact.success.title":"Message préparé !","contact.success.desc":"Merci pour votre intérêt. Ce formulaire de démonstration n'envoie pas encore de données.",
+        "footer.desc":"Digital Hub Club — développer les talents grâce à la technologie, au design et à la création numérique.","footer.nav":"Navigation","footer.follow":"Suivez-nous","footer.rights":"Tous droits réservés.","footer.made":"Fait avec ❤️ par DH CLUB"
+      },
+      ar: {
+        "nav.home":"الرئيسية","nav.skills":"المهارات","nav.poles":"أقسامنا","nav.contact":"اتصل بنا",
+        "hero.badge":"مقدمة","hero.title":"نادي DH","hero.subtitle":"مرحبًا بكم في النادي المعلوماتي والرقمي Digital Hub Club. منصتنا تجمع العقول الشغوفة بالابتكار والإبداع البصري والتطوير الحديث.","hero.cta1":"اكتشف أقسامنا","hero.cta2":"تواصل معنا",
+        "skills.badge":"المهارات","skills.title":"خبراتنا","skills.1.title":"البرمجة","skills.1.desc":"إتقان تقنيات الويب الحديثة وأطر العمل وتطوير البرمجيات.","skills.2.title":"التصميم الجرافيكي","skills.2.desc":"إنشاء تصاميم بصرية وشعارات وملصقات وهويات تجارية مميزة.","skills.3.title":"التصميم ثلاثي الأبعاد","skills.3.desc":"نمذجة بيئات ثلاثية الأبعاد ومساحات معمارية ورسوم متحركة.","skills.4.title":"إدارة المشاريع","skills.4.desc":"التخطيط الاستراتيجي وتنسيق المهام وتنظيم عمل الفريق.","skills.5.title":"تاريخ الفن","skills.5.desc":"دراسة الحركات الفنية وأساسيات التصميم والثقافة البصرية.",
+        "poles.badge":"أقسامنا","poles.title":"أي قسم يهمك؟","poles.subtitle":"اختر القسم الذي يهمك وسيتم إضافته تلقائيًا إلى طلب التواصل.","poles.1.tag":"البرمجة","poles.1.title":"تطوير الويب","poles.1.desc":"مواقع سريعة ومتجاوبة بكود منظم وواجهات حديثة.","poles.2.tag":"التصميم","poles.2.title":"التصميم ثنائي الأبعاد","poles.2.desc":"الهويات البصرية وبطاقات العمل والشعارات والتصاميم الرقمية.","poles.3.tag":"الجرافيك ثلاثي الأبعاد","poles.3.title":"نمذجة Blender","poles.3.desc":"تصاميم ثلاثية الأبعاد ومفاهيم معمارية وبيئات مستقبلية.",
+        "contact.badge":"تواصل معنا","contact.title":"ابدأ مشروعًا","contact.desc":"املأ النموذج أدناه للتواصل معنا أو لطلب الانضمام إلى النادي.","contact.name":"اسمك","contact.email":"بريدك الإلكتروني","contact.message":"اكتب رسالتك...","contact.send":"إرسال الرسالة","contact.selected":"القسم المختار:","contact.pole.choose":"— اختر قسمًا —","contact.pole.other":"أخرى / استفسار عام","contact.success.title":"تم تجهيز الرسالة!","contact.success.desc":"شكرًا لاهتمامك. نموذج العرض هذا لا يرسل البيانات إلى الخادم حاليًا.",
+        "footer.desc":"Digital Hub Club — نطوّر المواهب من خلال التكنولوجيا والتصميم والإبداع الرقمي.","footer.nav":"التنقل","footer.follow":"تابعنا","footer.rights":"جميع الحقوق محفوظة.","footer.made":"صُنع بـ ❤️ من DH CLUB"
+      }
+    };
+
+    function setLang(lang){
+      if(!translations[lang]) return;
+      try{localStorage.setItem('dh-lang',lang)}catch(e){}
+      document.documentElement.lang=lang;
+      document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+      document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.dataset.i18n;if(translations[lang][key])el.textContent=translations[lang][key]});
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{const key=el.dataset.i18nPlaceholder;if(translations[lang][key])el.placeholder=translations[lang][key]});
+      document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.lang===lang));
+      const chosen=document.querySelector('.pole-option.selected');if(chosen)updatePoleHint(chosen.dataset.pole);
+    }
+    function toggleTheme(){document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');document.getElementById('themeToggle').textContent=dark?'☀':'☾';try{localStorage.setItem('dh-theme',dark?'dark':'light')}catch(e){}}
+    function toggleCustomizer(){document.getElementById('customizer').classList.toggle('open')}
+    function changeAccent(color){document.documentElement.style.setProperty('--pink',color);document.documentElement.style.setProperty('--pink2',color)}
+    function changeRadius(value){document.documentElement.style.setProperty('--radius',value+'px')}
+    function toggleMenu(){document.getElementById('navLinks').classList.toggle('open')}
+    function selectPole(button){document.querySelectorAll('.pole-option').forEach(item=>item.classList.remove('selected'));button.classList.add('selected');const name=button.dataset.pole;document.getElementById('poleSelect').value=name;updatePoleHint(name);document.getElementById('contact').scrollIntoView({behavior:'smooth'})}
+    function updatePoleHint(name){document.getElementById('poleHintText').textContent=name;document.getElementById('poleHint').classList.add('show')}
+    document.getElementById('poleSelect').addEventListener('change',event=>{const value=event.target.value;document.querySelectorAll('.pole-option').forEach(item=>item.classList.toggle('selected',item.dataset.pole===value));if(value)updatePoleHint(value);else document.getElementById('poleHint').classList.remove('show')});
+    function handleSubmit(event){event.preventDefault();if(!event.currentTarget.reportValidity())return;document.getElementById('contactForm').hidden=true;document.getElementById('successMessage').classList.add('show')}
+
+    function makeStars(){const field=document.getElementById('stars');const symbols=['✦','✧','⋆','·'];const count=window.matchMedia('(max-width:600px)').matches?22:44;for(let i=0;i<count;i++){const star=document.createElement('span');star.className='star';star.textContent=symbols[Math.floor(Math.random()*symbols.length)];star.style.left=Math.random()*100+'%';star.style.top=Math.random()*100+'%';star.style.fontSize=(8+Math.random()*14)+'px';star.style.setProperty('--delay',(-Math.random()*15)+'s');star.style.setProperty('--time',(9+Math.random()*15)+'s');field.appendChild(star)}}
+    function initEffects(){const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(!reduce&&'IntersectionObserver'in window){document.body.classList.add('reveal-ready');const items=document.querySelectorAll('.section-header,.card,.pole-option,.contact-form,.footer-inner>div');items.forEach((el,i)=>{el.classList.add('reveal');el.style.transitionDelay=(i%4)*65+'ms'});const observer=new IntersectionObserver((entries,obs)=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');obs.unobserve(entry.target)}}),{threshold:.12,rootMargin:'0px 0px -30px 0px'});items.forEach(el=>observer.observe(el))}
+      if(!reduce&&window.matchMedia('(hover:hover) and (pointer:fine)').matches){document.querySelectorAll('.card').forEach(card=>{card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;card.style.setProperty('--tx',((x-.5)*5)+'deg');card.style.setProperty('--ty',((.5-y)*5)+'deg');card.style.setProperty('--gx',(x*100)+'%');card.style.setProperty('--gy',(y*100)+'%')});card.addEventListener('pointerleave',()=>{card.style.setProperty('--tx','0deg');card.style.setProperty('--ty','0deg')})})}
+      const glow=document.getElementById('cursorGlow');if(glow&&window.matchMedia('(hover:hover) and (pointer:fine)').matches)window.addEventListener('pointermove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'},{passive:true});
+      const progress=document.getElementById('progress'),top=document.getElementById('backTop');function updateScroll(){const max=document.documentElement.scrollHeight-innerHeight;progress.style.width=(max>0?scrollY/max*100:0)+'%';top.classList.toggle('visible',scrollY>420)}window.addEventListener('scroll',updateScroll,{passive:true});updateScroll();
+      document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));
+    }
+    window.addEventListener('DOMContentLoaded',()=>{makeStars();initEffects();let lang='en',theme='light';try{lang=localStorage.getItem('dh-lang')||'en';theme=localStorage.getItem('dh-theme')||'light'}catch(e){}setLang(lang);if(theme==='dark'){document.body.classList.add('dark');document.getElementById('themeToggle').textContent='☀'}});
+  </script>
+</body>
+</html>
